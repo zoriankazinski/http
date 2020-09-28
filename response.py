@@ -7,12 +7,21 @@ class Response:
         return 'HTTP/1.1 200 OK\r\nServer: PyServer\r\n\r\n{}\r\n\r\n'.format(self.body).encode()
 
 
-class DefaultResponseNotFound:
+class DefaultResponse:
 
-    def encode(self):
-        return b'HTTP/1.1 404 Not Found\r\nServer: PyServer\r\n\r\n'
+    class BadRequest(bytes):
 
-class DefaultResponseBadRequest:
+        def __new__(cls,*args,**kwargs):
+            return super().__new__(cls,'HTTP/1.1 400 Not Found\r\n\r\n',encoding='utf-8')
 
-    def encode(self):
-        return b'HTTP/1.1 400 Not Found\r\nServer: PyServer\r\n\r\n'
+    class Unauthorized:
+
+        def __new__(cls,*args,**kwargs):
+            return super().__new__(cls,'HTTP/1.1 401 Unauthorized\r\n\r\n',encoding='utf-8')
+
+    class NotFound(bytes):
+
+        def __new__(cls,*args,**kwargs):
+            return super().__new__(cls,'HTTP/1.1 404 Not Found\r\n\r\n',encoding='utf-8')
+
+

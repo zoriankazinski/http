@@ -48,7 +48,7 @@ class Server:
 
     def handle_writeables(self,conn):
         try:
-            msg = self.messages[conn].get_nowait().encode()
+            msg = self.messages[conn].get_nowait()
         except Queue.Empty:
             self.outputs.remove(conn)
         else:
