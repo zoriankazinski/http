@@ -11,7 +11,9 @@ class Server:
     messages = {}
     routes = {}
 
-    def __init__(self,port=1118):
+    donotkill = False
+
+    def __init__(self,port=2145):
         self.sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         self.sock.bind(('',port))
         self.sock.listen(50)
