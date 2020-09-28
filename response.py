@@ -6,9 +6,18 @@ class Response:
         class RespBytes(bytes):
 
             def __new__(cls,*args,**kwargs):
-                return 'HTTP/1.1 200 OK\r\n\r\n{}\r\n\r\n'.format(self.body).encode()
+                to_return = 'HTTP/1.1 200 OK\r\n\r\n{}\r\n\r\n'.format(self.body)
+                return super().__new__(cls,to_return,encoding='utf-8')
 
-        return RespBytes()
+        class EmptyRespBytes(bytes):
+
+            def __new__(cls,*args,**kwargs):
+                return super().__new__(cls,'HTTP/1.1 204 No Content\r\n\r\n',encoding='utf-8')
+
+        if self.body:
+            return RespBytes()
+
+        return EmptyRespBytes()
 
 
 class DefaultResponse:

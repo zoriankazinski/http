@@ -2,7 +2,7 @@ import socket
 import select
 import queue as Queue
 from request import Request
-from response import Response, DefaultResponseFailed, DefaultResponseUnknown
+from response import Response, DefaultResponse
 
 class Server:
     
@@ -11,7 +11,7 @@ class Server:
     messages = {}
     routes = {}
 
-    def __init__(self,port=1117):
+    def __init__(self,port=1118):
         self.sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         self.sock.bind(('',port))
         self.sock.listen(50)
@@ -74,12 +74,12 @@ class Server:
     def answer(self,request):
         route = request.Header.Route
         if route not in self.routes:
-            return DefaultResponseNotFound()
+            return DefaultResponse.NotFound()
         try:
             return Response(request.Header,self.routes[route](request.Body))
         except:
-            return DefaultResponseBadRequest()            
+            return DefaultResponse.BadRequest()            
 
 A = Server()
-A.add_route('/',lambda x: 'YAY')
+A.add_route('/',lambda x: None)
 A()

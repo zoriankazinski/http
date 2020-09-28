@@ -6,9 +6,15 @@ class Header:
     _route = None
 
     legal_types = [ 
+        "CONNECT",
+        "DELETE",
         "GET",
+        "HEAD",
+        "OPTIONS",
+        "PATCH",
         "POST",
-        "..."
+        "PUT",
+        "TRACE"
     ]
 
     def __init__(self,request_header):
